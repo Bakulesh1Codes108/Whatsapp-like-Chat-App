@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhatsApp-like Chat</title>
-    <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -13,7 +12,6 @@
     <div id="username-section">
         <label for="username">Enter username:</label>
         <input id="username" type="text" autocomplete="username">
-
         <button onclick="setUsername()">Set</button>
     </div>
 
@@ -36,6 +34,18 @@
         </div>
     </div>
 
+    <div id="help-modal" class="modal">
+        <div class="help-content">
+            <span class="close-button" onclick="closeHelpModal()">&times;</span>
+            <h2>Available Commands:</h2>
+            <ul>
+                <li>/help - To show this message</li>
+                <li>/random - To generate Random number</li>
+                <li>/clear - To clear the chat message</li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script src="script.js"></script>
 </body>
 

@@ -2,13 +2,7 @@
 
 ![Screenshot](Whatsapp Like UI Chat Demo.png)
 
-Emoji Chat Automatic Word Conversion Update with
- react: ⚛️
-  woah: 😲 
-  hey: 👋 
-  lol: 😂 
-  like: ❤️ 
-  congratulations: 🎉
+
 
 Summary:
 This code sets up a chat application similar to WhatsApp using Node.js and Socket.IO. It creates a server using Express and Socket.IO to facilitate real-time communication between clients. Users can send and receive chat messages within the application. The server listens on port 5000, and the chat messages are broadcasted to all connected clients

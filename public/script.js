@@ -1,24 +1,6 @@
-const socket = io();
+const socket = io('http://127.0.0.1:5000');
 let username;
 let inactivityTimeout;
-
-function replaceKeywordsWithEmojis(message) {
-    const emojiMap = {
-        "react": "⚛️",
-        "woah": "😲",
-        "hey": "👋",
-        "lol": "😂",
-        "like": "❤️",
-        "congratulations": "🎉"
-    };
-
-    for (let keyword in emojiMap) {
-        const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-        message = message.replace(regex, emojiMap[keyword]);
-    }
-
-    return message;
-}
 
 function checkUsername() {
     if (!username) {
@@ -45,20 +27,74 @@ function sendMessage() {
         checkUsernameTimeout();
         return;
     }
-    let message = document.getElementById('message').value;
-    message = replaceKeywordsWithEmojis(message);
-    socket.emit('chat message', message, username);
-    document.getElementById('message').value = '';
-
+    const messageElem = document.getElementById('message');
+    let message = messageElem.value;
+    
+    if (message.startsWith('/')) {
+        processSlashCommand(message);
+    } else {
+        message = convertWordsToEmoji(message);
+        socket.emit('chat message', message, username);
+    }
+    
+    messageElem.value = '';
     clearTimeout(inactivityTimeout);
 
     inactivityTimeout = setTimeout(() => {
         document.getElementById('session-expired-modal').style.display = "block";
-    }, 10000);
+    }, 30000);
+}
+
+function convertWordsToEmoji(message) {
+    const emojiMap = {
+        'react': '⚛️',
+        'woah': '😲',
+        'hey': '👋',
+        'lol': '😂',
+        'like': '❤️',
+        'congratulations': '🎉'
+    };
+
+    for (const word in emojiMap) {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi'); // matches whole words
+        message = message.replace(regex, emojiMap[word]);
+    }
+
+    return message;
+}
+
+function processSlashCommand(command) {
+    switch (command) {
+        case '/help':
+            showHelpModal();
+            break;
+        case '/random':
+            const randomNumber = (Math.random() * 1e12).toFixed(0);
+            const randomMessage = `<i>Here's your Random number: ${randomNumber}</i>`;
+            const li = document.createElement('li');
+            li.innerHTML = randomMessage;
+            document.getElementById('messages').appendChild(li);
+            break;
+        case '/clear':
+            document.getElementById('messages').innerHTML = '';
+            break;
+        default:
+            const errorMsg = 'Invalid command. Type /help for a list of available commands.';
+            alert(errorMsg);
+    }
+}
+
+function showHelpModal() {
+    const helpModal = document.getElementById('help-modal');
+    helpModal.style.display = "block";
+}
+
+function closeHelpModal() {
+    const helpModal = document.getElementById('help-modal');
+    helpModal.style.display = "none";
 }
 
 socket.on('chat message', (msg, user) => {
-    msg = replaceKeywordsWithEmojis(msg);
     const li = document.createElement('li');
     li.innerText = `${user}: ${msg}`;
     document.getElementById('messages').appendChild(li);
