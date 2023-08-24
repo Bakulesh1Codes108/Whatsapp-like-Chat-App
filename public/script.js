@@ -2,6 +2,24 @@ const socket = io();
 let username;
 let inactivityTimeout;
 
+function replaceKeywordsWithEmojis(message) {
+    const emojiMap = {
+        "react": "⚛️",
+        "woah": "😲",
+        "hey": "👋",
+        "lol": "😂",
+        "like": "❤️",
+        "congratulations": "🎉"
+    };
+
+    for (let keyword in emojiMap) {
+        const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+        message = message.replace(regex, emojiMap[keyword]);
+    }
+
+    return message;
+}
+
 function checkUsername() {
     if (!username) {
         username = prompt("Please enter your username before typing a message:");
@@ -27,7 +45,8 @@ function sendMessage() {
         checkUsernameTimeout();
         return;
     }
-    const message = document.getElementById('message').value;
+    let message = document.getElementById('message').value;
+    message = replaceKeywordsWithEmojis(message);
     socket.emit('chat message', message, username);
     document.getElementById('message').value = '';
 
@@ -39,6 +58,7 @@ function sendMessage() {
 }
 
 socket.on('chat message', (msg, user) => {
+    msg = replaceKeywordsWithEmojis(msg);
     const li = document.createElement('li');
     li.innerText = `${user}: ${msg}`;
     document.getElementById('messages').appendChild(li);
@@ -48,17 +68,6 @@ function checkUsernameTimeout() {
     if (!username) {
         document.getElementById('session-expired-modal').style.display = "block";
     }
-}
-function setUsername() {
-  username = document.getElementById('username').value;
-  if (username) {
-      document.getElementById('current-user').innerText = username;
-      document.getElementById('username-section').style.display = "none";
-      document.getElementById('chat-section').style.display = "block";
-
-      // Save the username to local storage
-      localStorage.setItem('savedUsername', username);
-  }
 }
 
 function closeModal() {
