@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp-like Chat</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="username-section">
+        <label for="username">Enter username:</label>
+        <input id="username" type="text" autocomplete="username">
+
+        <button onclick="setUsername()">Set</button>
+    </div>
+
+    <div id="chat-section" style="display: none;">
+        <div id="sidebar">
+            <div id="current-user"></div>
+        </div>
+        <div id="main">
+            <ul id="messages"></ul>
+            <label for="message" class="visually-hidden">Enter Message</label>
+            <input id="message" placeholder="Enter your message..." autocomplete="off" onfocus="checkUsername()">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <div id="session-expired-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <p>Session Expired. Please enter your username again.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
