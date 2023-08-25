@@ -1,6 +1,6 @@
 ## Project Screenshot
 
-![Screenshot](Whatsapp Like UI Chat Demo.png)
+![Whatsapp Like UI Chat Demo](https://github.com/Bakulesh1Codes108/Whatsapp-like-Chat-App/assets/141210076/04d7d2ab-09a3-46e7-8f40-132640ad2f52)
 
 
 
