@@ -112,3 +112,7 @@ function closeModal() {
     document.getElementById('chat-section').style.display = "none";
     document.getElementById('username-section').style.display = "block";
 }
+
+socket.on('online users count', (count) => {
+  document.getElementById('online-users-count').innerText = `Online Users: ${count}`;
+});
