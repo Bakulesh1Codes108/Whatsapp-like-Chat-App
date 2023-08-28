@@ -42,7 +42,7 @@ function sendMessage() {
 
     inactivityTimeout = setTimeout(() => {
         document.getElementById('session-expired-modal').style.display = "block";
-    }, 30000);
+    }, 50000);
 }
 
 function convertWordsToEmoji(message) {
